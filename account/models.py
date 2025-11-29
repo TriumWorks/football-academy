@@ -59,3 +59,44 @@ class User(AbstractBaseUser, AuditableModel, PermissionsMixin):
     
     def get_full_name(self):
         return f"{self.first_name} {self.middle_name} {self.last_name}".strip()
+
+
+class Player(AuditableModel):
+    first_name = models.CharField(max_length=255)
+    middle_name = models.CharField(max_length=255)
+    # Bart 
+    dob = models.DateField(null=True, blank=True)
+    profile_picture = models.FileField(null=True, blank=True)
+    position = models.CharField(max_length=255)
+    notes = models.TextField()
+    
+
+class UserPlayer(AuditableModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    player =models.ForeignKey(
+        Player,
+        on_delete=models.CASCADE
+    )
+
+  
+class PlaySchedule(AuditableModel):
+    venue = models.CharField(max_length=255)
+    start_time = models.DateTimeField()
+    end_time = models.DateField()
+    description = models.TextField()     
+
+
+class PlayerAttendance(AuditableModel):
+    player = models.ForeignKey(
+        Player,
+        on_delete=models.DO_NOTHING
+    )
+    schedule = models.ForeignKey(
+        PlaySchedule,
+        on_delete=models.DO_NOTHING
+    )
+    notes = models.TextField()
+    

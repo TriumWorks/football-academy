@@ -1,5 +1,13 @@
 from django import forms
 
+from account.models import (
+    Player,
+    PlayerAttendance,
+    UserPlayer,
+    PlaySchedule,
+    PlayerAttendance
+)
+
 
 class LoginForm(forms.Form):
     email = forms.CharField(
@@ -44,7 +52,6 @@ class LoginForm(forms.Form):
         if not password:
             raise forms.ValidationError("Password is required.")
         return password
-
 
 
 class RegisterForm(forms.Form):
@@ -107,4 +114,21 @@ class RegisterForm(forms.Form):
         return cleaned_data
     
     
-    
+class PlayerForm(forms.ModelForm):
+    class Meta:
+        models = Player
+
+
+class UserPlayerForm(forms.ModelForm):
+    class Meta:
+        model = UserPlayer
+
+
+class PlayScheduleForm(forms.ModelForm):
+    class Meta:
+        model = PlaySchedule
+
+
+class PlayerAttendanceForm(forms.ModelForm):
+    class Meta:
+        model = PlayerAttendance
