@@ -14,16 +14,12 @@
 
 <body>
     <div class="container">
-        <div class="col-md-4">
-            {% include 'sidebar.html' %}
-        </div>
-        <div class="col-md-6">
+      
+        <div class="col">
             {% block content %}
             <!-- Page content goes here -->
             {% endblock %}
         </div>
-
-
     </div>
     <!-- Bootstrap 5 JS Bundle -->
     <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}"></script>

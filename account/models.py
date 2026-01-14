@@ -63,8 +63,7 @@ class User(AbstractBaseUser, AuditableModel, PermissionsMixin):
 
 class Player(AuditableModel):
     first_name = models.CharField(max_length=255)
-    middle_name = models.CharField(max_length=255)
-    # Bart 
+    last_name = models.CharField(max_length=255)
     dob = models.DateField(null=True, blank=True)
     profile_picture = models.FileField(null=True, blank=True)
     position = models.CharField(max_length=255)

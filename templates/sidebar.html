@@ -1,1 +1,23 @@
-<h3> Side bar content</h3>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+       Side Menu
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+
+            <li class="list-group-item">
+                <a href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'players' %}">Players</a>
+            </li>
+            <li class="list-group-item">Schedule</li>
+            <li class="list-group-item"> 
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-sm" type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>

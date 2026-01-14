@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from .models import User
+from .models import Player, User
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, PlayerForm, RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -57,3 +57,26 @@ class LogoutView(View):
     def post(self, request):
         logout(request)
         return redirect('login')
+
+
+class ListPlayerView(LoginRequiredMixin, View):
+    def get(self, request):
+        players = Player.objects.all()
+        context = {
+            'players': players
+        }
+        return render(request, 'players/list.html', context)
+
+
+class CreatePlayerView(LoginRequiredMixin, View):
+    model = Player
+    form_class = PlayerForm
+
+    def form_valid(self, form):
+        pass
+    
+    def form_invalid(self, form):
+        pass
+    
+    def get_success_url(self, pk):
+        pass
