@@ -1,6 +1,6 @@
 # add url patterns
 from django.urls import path
-from .views import HomeView, ListPlayerView, LogoutView, RegisterView, LoginView
+from .views import HomeView, ListPlaySchedule, ListPlayerView, LogoutView, RegisterView, LoginView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -8,5 +8,7 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('logout/', LogoutView.as_view(), name='logout'),
     # players
-    path('players/', ListPlayerView.as_view(), name='players')
+    path('players/', ListPlayerView.as_view(), name='players'),
+    # scheduling
+    path('play-schedule', ListPlaySchedule.as_view(), name='scheduling')
 ]

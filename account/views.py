@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Player, User
+from .models import PlaySchedule, Player, User
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -58,7 +58,7 @@ class LogoutView(View):
         logout(request)
         return redirect('login')
 
-
+# Players
 class ListPlayerView(LoginRequiredMixin, View):
     def get(self, request):
         players = Player.objects.all()
@@ -80,3 +80,16 @@ class CreatePlayerView(LoginRequiredMixin, View):
     
     def get_success_url(self, pk):
         pass
+
+
+# Scheduling
+class ListPlaySchedule(LoginRequiredMixin, View):
+    def get(self, request):
+        past = PlaySchedule.objects.all()
+        upcoming = PlaySchedule.objects.all()
+        
+        context = {
+            'past': past,
+            'upcoming': upcoming
+        }
+        return render(request, 'scheduling/list.html', context)

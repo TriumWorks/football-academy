@@ -4,14 +4,15 @@
     </div>
     <div class="card-body">
         <ul class="list-group">
-
             <li class="list-group-item">
                 <a href="{% url 'home' %}">Home</a>
             </li>
             <li class="list-group-item">
                 <a href="{% url 'players' %}">Players</a>
             </li>
-            <li class="list-group-item">Schedule</li>
+            <li class="list-group-item">
+                 <a href="{% url 'scheduling' %}">Scheduling</a>
+            </li>
             <li class="list-group-item"> 
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}

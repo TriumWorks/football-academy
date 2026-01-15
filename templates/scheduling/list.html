@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">Training scheduling</div>
+    <div class="card-body">
+        <!-- tab div -->
+        <div>
+            <ul class="nav soft-tabs" role="tablist">
+                <li class="nav-item">
+                    <a href="#upcoming" class="nav-link active" data-bs-toggle="tab" role="tab">
+                        Upcoming
+                    </a>
+
+                </li>
+                <li class="nav-item">
+                    <a href="#past" class="nav-link" data-bs-toggle="tab" role="tab">
+                        Past
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Venue</th>
+                                <th>Start Time</th>
+                                <th>End time</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in upcoming %}
+                            <tr>
+                                <td>{{ item.venue }}</td>
+                                <td>{{ item.start_time }}</td>
+                                <td>{{ item.end_time }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>
+                                    <a href="">View</a>
+                                    <a href="">Edit</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="past" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Venue</th>
+                                <th>Start Time</th>
+                                <th>End time</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in upcoming %}
+                            <tr>
+                                <td>{{ item.venue }}</td>
+                                <td>{{ item.start_time }}</td>
+                                <td>{{ item.end_time }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>
+                                    <a href="">View Attendance</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
