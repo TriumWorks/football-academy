@@ -93,3 +93,12 @@ class ListPlaySchedule(LoginRequiredMixin, View):
             'upcoming': upcoming
         }
         return render(request, 'scheduling/list.html', context)
+
+# Users
+class UserListView(LoginRequiredMixin, View):
+    def get(self, request):
+        parents = User.objects.all()
+        context = {
+            'parents': parents
+        }
+        return render(request, 'users/list.html', context)
