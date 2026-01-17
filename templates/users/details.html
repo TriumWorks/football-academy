@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mb-5">
+    <div class="card-header bg-secondary text-white">
+        {{user.get_full_name}}'s Details
+    </div>
+
+</div>
+
+<div class="card mb-5">
+    <div class="card-header bg-secondary text-white">
+        {{user.get_full_name}}'s Players
+    </div>
+
+</div>
+
+<div class="card mb-5">
+    <div class="card-header bg-secondary text-white">
+        {{user.get_full_name}}'s Payments
+    </div>
+
+</div>
+
+{% endblock %}

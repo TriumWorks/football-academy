@@ -69,6 +69,9 @@ class Player(AuditableModel):
     position = models.CharField(max_length=255)
     notes = models.TextField()
     
+    def get_full_name(self):
+        return f"{self.first_name}  {self.last_name}".strip()
+    
 
 class UserPlayer(AuditableModel):
     user = models.ForeignKey(

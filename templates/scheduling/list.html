@@ -52,7 +52,7 @@
                                 <td>{{ item.end_time }}</td>
                                 <td>{{ item.description }}</td>
                                 <td>
-                                    <a href="">View</a>
+                                    <a href="{% url 'account:scheduling-details' item.pk %}">View Attendance</a>
                                     <a href="">Edit</a>
                                 </td>
                             </tr>
@@ -81,7 +81,7 @@
                                 <td>{{ item.end_time }}</td>
                                 <td>{{ item.description }}</td>
                                 <td>
-                                    <a href="">View Attendance</a>
+                                    <a href="{% url 'account:scheduling-details' item.pk %}">View Attendance</a>
                                 </td>
                             </tr>
                             {% endfor %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from .models import PlaySchedule, Player, User
 from django.shortcuts import render, redirect
@@ -87,6 +87,14 @@ class CreatePlayerView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('account:players')
 
+class DetailPlayerView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        player = get_object_or_404(Player, pk=pk)
+        
+        context = {
+            'player': player
+        }
+        return render(request, 'players/details.html', context)
 
 # Scheduling
 class ListPlaySchedule(LoginRequiredMixin, View):
@@ -115,7 +123,15 @@ class CreatePlaySchedule(LoginRequiredMixin, CreateView):
     
     def get_success_url(self):
          return reverse('account:scheduling')
-    
+
+
+class DetailPlaySchedule(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        schedule = get_object_or_404(PlaySchedule,  pk=pk)
+        context = {
+            'schedule': schedule
+        }
+        return render(request, 'scheduling/details.html', context)
 
 # Users
 class UserListView(LoginRequiredMixin, View):
@@ -125,3 +141,13 @@ class UserListView(LoginRequiredMixin, View):
             'parents': parents
         }
         return render(request, 'users/list.html', context)
+    
+
+class DetailUserView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        
+        context = {
+            'user': user
+        }
+        return render(request, 'users/details.html', context)

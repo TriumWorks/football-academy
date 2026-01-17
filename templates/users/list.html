@@ -26,7 +26,7 @@
                             <td>{{ parent.is_active }}</td>
                             <td>{{ parent.is_verified }}</td>
                             <td>
-                                <a href="">View</a>
+                                <a href="{% url 'account:care-takers-details' parent.pk %}">View</a>
                                 <a href="">Edit</a>
                             </td>
                         </tr>

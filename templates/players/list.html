@@ -31,7 +31,7 @@
                             <td>{{ player.dob }}</td>
                             <td>{{ player.position }}</td>
                             <td>
-                                <a href="">View</a>
+                                <a href="{% url 'account:player-details' player.pk %}">View</a>
                                 <a href="">Edit</a>
                             </td>
                         </tr>
