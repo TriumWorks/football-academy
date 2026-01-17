@@ -116,8 +116,27 @@ class RegisterForm(forms.Form):
     
 class PlayerForm(forms.ModelForm):
     class Meta:
-        models = Player
-        fields = '__all__'
+        model = Player
+        fields = [
+            'first_name', 'last_name', 'dob', 'position', 'notes'
+        ]
+        widgets = {
+            'first_name': forms.TextInput(
+                attrs={ 'class': 'form-control'}
+            ),
+            'last_name': forms.TextInput(
+                attrs={ 'class': 'form-control'}
+            ),
+            'dob': forms.DateInput(
+                attrs={ 'class': 'form-control', 'type': 'date'}
+            ),
+            'position': forms.TextInput(
+                attrs={ 'class': 'form-control'}
+            ),
+            'notes': forms.Textarea(
+                attrs={ 'class': 'form-control'}
+            )
+        }
 
 
 class UserPlayerForm(forms.ModelForm):

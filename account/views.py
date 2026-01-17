@@ -64,24 +64,28 @@ class LogoutView(View):
 class ListPlayerView(LoginRequiredMixin, View):
     def get(self, request):
         players = Player.objects.all()
+        form = PlayerForm()
+        
         context = {
-            'players': players
+            'players': players,
+            'form': form
         }
         return render(request, 'players/list.html', context)
 
 
-class CreatePlayerView(LoginRequiredMixin, View):
+class CreatePlayerView(LoginRequiredMixin, CreateView):
     model = Player
     form_class = PlayerForm
 
     def form_valid(self, form):
-        pass
+        player = form.save(commit=True)
+        return super().form_valid(form)
     
     def form_invalid(self, form):
         pass
     
-    def get_success_url(self, pk):
-        pass
+    def get_success_url(self):
+        return reverse('account:players')
 
 
 # Scheduling

@@ -1,0 +1,16 @@
+<div class="modal fade" id="addPlayer" tabindex="-1" aria-labelledby="addPlayerModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5>Add player</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post"  action="{% url 'account:players-create'%}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">Create player</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
