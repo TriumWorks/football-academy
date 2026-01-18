@@ -1,12 +1,12 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .models import PlaySchedule, Player, User
+from .models import PlaySchedule, Player, User, UserPlayer
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, PlayScheduleForm, PlayerForm, RegisterForm
+from .forms import LoginForm, PlayScheduleForm, PlayerForm, RegisterForm, UserPlayerForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -128,8 +128,10 @@ class CreatePlaySchedule(LoginRequiredMixin, CreateView):
 class DetailPlaySchedule(LoginRequiredMixin, View):
     def get(self, request, pk):
         schedule = get_object_or_404(PlaySchedule,  pk=pk)
+       
         context = {
-            'schedule': schedule
+            'schedule': schedule,
+           
         }
         return render(request, 'scheduling/details.html', context)
 
@@ -137,6 +139,7 @@ class DetailPlaySchedule(LoginRequiredMixin, View):
 class UserListView(LoginRequiredMixin, View):
     def get(self, request):
         parents = User.objects.all()
+       
         context = {
             'parents': parents
         }
@@ -146,8 +149,27 @@ class UserListView(LoginRequiredMixin, View):
 class DetailUserView(LoginRequiredMixin, View):
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
-        
+        assign_player = UserPlayerForm(initial={'user': user})
         context = {
-            'user': user
+            'user': user,
+            'assign_player': assign_player
         }
         return render(request, 'users/details.html', context)
+
+
+class AssignUserPlayer(LoginRequiredMixin, CreateView):
+    model = UserPlayer
+    form_class = UserPlayerForm
+    
+    def form_valid(self, form):
+        assignment = form.save(commit=True)
+        return super().form_valid(form)
+        
+        
+    def get_success_url(self):
+        return reverse(
+            'account:care-takers-details',
+            kwargs={'pk': self.object.user.pk}
+        )
+
+    

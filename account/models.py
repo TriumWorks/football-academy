@@ -72,6 +72,9 @@ class Player(AuditableModel):
     def get_full_name(self):
         return f"{self.first_name}  {self.last_name}".strip()
     
+    def __str__(self):
+        return  f"{self.first_name} {self.last_name}".strip()
+    
 
 class UserPlayer(AuditableModel):
     user = models.ForeignKey(

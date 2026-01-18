@@ -1,0 +1,16 @@
+<div class="modal fade" id="assignPlayer" tabindex="-1" aria-labelledby="assignPlayerModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5>Assign player</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST"  action="{% url 'account:care-takers-assign-player' %}">
+                    {% csrf_token %}
+                    {{ assign_player.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">Assign</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

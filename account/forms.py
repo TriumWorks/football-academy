@@ -140,9 +140,16 @@ class PlayerForm(forms.ModelForm):
 
 
 class UserPlayerForm(forms.ModelForm):
+   
     class Meta:
         model = UserPlayer
-        fields = '__all__'
+        fields = [
+            'user', 'player'
+        ]
+        widgets = {
+            'user': forms.Select(attrs={'class': 'form-control'}),
+            'player': forms.Select(attrs={'class': 'form-control'})
+        }
 
 
 class PlayScheduleForm(forms.ModelForm):
