@@ -1,0 +1,16 @@
+<div class="modal fade" id="addPlayerToSchedule" tabindex="-1" aria-labelledby="assignPlayerModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5>Register</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST"  action="{% url 'account:player-schedule-register' %}">
+                    {% csrf_token %}
+                    {{ assign_schedule.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

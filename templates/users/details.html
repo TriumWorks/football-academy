@@ -11,7 +11,39 @@
 <div class="card mb-5">
     <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
         <span>{{user.get_full_name}}'s Players</span>
-        <a href="#" class="btn btn-primary btn-light"  data-bs-toggle="modal" data-bs-target="#assignPlayer">Add Player</a>
+        <a href="#" class="btn btn-primary btn-light btn-sm"  data-bs-toggle="modal" data-bs-target="#assignPlayer">Assign player</a>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped"> 
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>DOB</th>
+                        <th>Position</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in user.userplayer_set.all %}
+                    {{player}}
+                        <tr>
+                            <td>{{ entry.player.first_name }}</td>
+                            <td>{{ entry.player.last_name }}</td>
+                            <td>{{ entry.player.dob }}</td>
+                            <td>{{ entry.player.position }}</td>
+                            <td>
+                                <a href="{% url 'account:player-details' entry.player.pk %}">View</a>
+                                <a href="">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 
 </div>
@@ -23,7 +55,7 @@
 
 </div>
 
- {% include 'users/add-player-modal.html' %}
+{% include 'users/add-player-modal.html' %}
 
 
 {% endblock %}

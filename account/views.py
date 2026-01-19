@@ -1,13 +1,15 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .models import PlaySchedule, Player, User, UserPlayer
+from .models import PlaySchedule, Player, PlayerAttendance, User, UserPlayer
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, PlayScheduleForm, PlayerForm, RegisterForm, UserPlayerForm
+from .forms import LoginForm, PlayScheduleForm, PlayerAttendanceForm, PlayerForm, RegisterForm, UserPlayerForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
+from datetime import timedelta
 
 
 class RegisterView(View):
@@ -90,17 +92,19 @@ class CreatePlayerView(LoginRequiredMixin, CreateView):
 class DetailPlayerView(LoginRequiredMixin, View):
     def get(self, request, pk):
         player = get_object_or_404(Player, pk=pk)
-        
+        assign_schedule = PlayerAttendanceForm(initial={'player': player})
         context = {
-            'player': player
+            'player': player,
+            'assign_schedule': assign_schedule
         }
         return render(request, 'players/details.html', context)
 
 # Scheduling
 class ListPlaySchedule(LoginRequiredMixin, View):
     def get(self, request):
-        past = PlaySchedule.objects.all()
-        upcoming = PlaySchedule.objects.all()
+        today = timezone.now().date()
+        past = PlaySchedule.objects.filter(date__lt=today).order_by('-date')
+        upcoming = PlaySchedule.objects.filter(date__gte=today).order_by('date')
         form = PlayScheduleForm()
         
         context = {
@@ -134,6 +138,17 @@ class DetailPlaySchedule(LoginRequiredMixin, View):
            
         }
         return render(request, 'scheduling/details.html', context)
+
+
+class AssignPlayerSchedule(LoginRequiredMixin, CreateView):
+    model = PlayerAttendance
+    form_class = PlayerAttendanceForm
+    
+    def get_success_url(self):
+        return reverse(
+           'account:player-details',
+           kwargs={'pk': self.object.player.pk}
+        )
 
 # Users
 class UserListView(LoginRequiredMixin, View):

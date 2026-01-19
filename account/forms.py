@@ -171,4 +171,11 @@ class PlayScheduleForm(forms.ModelForm):
 class PlayerAttendanceForm(forms.ModelForm):
     class Meta:
         model = PlayerAttendance
-        fields = '__all__'
+        fields = [
+            'player', 'schedule'
+        ]
+        
+        widgets = {
+            'player': forms.Select(attrs={'class': 'form-control'}),
+            'schedule': forms.Select(attrs={'class': 'form-control'})
+        }

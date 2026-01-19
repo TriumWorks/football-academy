@@ -92,7 +92,10 @@ class PlaySchedule(AuditableModel):
     date = models.DateField(auto_now=False, null=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    description = models.TextField()     
+    description = models.TextField()
+    
+    def __str__(self):
+        return f"{self.venue} {self.date} starting {self.start_time}"
 
 
 class PlayerAttendance(AuditableModel):
@@ -104,5 +107,11 @@ class PlayerAttendance(AuditableModel):
         PlaySchedule,
         on_delete=models.DO_NOTHING
     )
+    attended = models.BooleanField(
+        default=False
+    )
     notes = models.TextField()
+    
+    def __str__(self):
+        return f"{self.player.get_full_name()} {self.schedule.date} {self.schedule.start_time}"
     

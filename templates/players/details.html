@@ -12,14 +12,48 @@
     <div class="card-header bg-secondary text-white">
         {{player.get_full_name}}'s Parents/Caretakers
     </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Telephone</th>
+                        <th>Activated?</th>
+                        <th>Verified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in player.userplayer_set.all %}
+                    <tr>
+                        <td>{{ entry.user.get_full_name }}</td>
+                        <td>{{ entry.user.email }}</td>
+                        <td>{{ entry.user.telephone }}</td>
+                        <td>{{ entry.user.is_active }}</td>
+                        <td>{{ entry.user.is_verified }}</td>
+                        <td>
+                            <a href="{% url 'account:care-takers-details' entry.user.pk %}">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 
 </div>
 
 <div class="card mb-5">
-    <div class="card-header bg-secondary text-white">
-        {{player.get_full_name}}'s Trainings
+    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <span>{{player.get_full_name}}'s Trainings</span>
+        <a href="#" class="btn btn-primary btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#addPlayerToSchedule">Add Training</a>
     </div>
 
 </div>
+
+{% include 'players/add-to-schedule-modal.html' %}
 
 {% endblock %}

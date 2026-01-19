@@ -67,6 +67,7 @@
                         <thead>
                             <tr>
                                 <th>Venue</th>
+                                <th>Date</th>
                                 <th>Start Time</th>
                                 <th>End time</th>
                                 <th>Description</th>
@@ -74,9 +75,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in upcoming %}
+                            {% for item in past %}
                             <tr>
                                 <td>{{ item.venue }}</td>
+                                <td>{{ item.date }}</td>
                                 <td>{{ item.start_time }}</td>
                                 <td>{{ item.end_time }}</td>
                                 <td>{{ item.description }}</td>
