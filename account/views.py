@@ -93,9 +93,20 @@ class DetailPlayerView(LoginRequiredMixin, View):
     def get(self, request, pk):
         player = get_object_or_404(Player, pk=pk)
         assign_schedule = PlayerAttendanceForm(initial={'player': player})
+        today = timezone.now().date()
+        past_trainings = PlayerAttendance.objects.filter(
+            player=player,
+            schedule__date__lt=today
+        )
+        upcoming_trainings = PlayerAttendance.objects.filter(
+            player = player,
+            schedule__date__gte=today
+        )
         context = {
             'player': player,
-            'assign_schedule': assign_schedule
+            'assign_schedule': assign_schedule,
+            'upcoming_trainings': upcoming_trainings,
+            'past_trainings': past_trainings
         }
         return render(request, 'players/details.html', context)
 

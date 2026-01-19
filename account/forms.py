@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 
 from account.models import (
     Player,
@@ -179,3 +180,9 @@ class PlayerAttendanceForm(forms.ModelForm):
             'player': forms.Select(attrs={'class': 'form-control'}),
             'schedule': forms.Select(attrs={'class': 'form-control'})
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['schedule'].queryset = PlaySchedule.objects.filter(date__gte=timezone.now().date())
+
+        

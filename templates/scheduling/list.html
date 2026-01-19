@@ -2,18 +2,18 @@
 
 {% block content %}
 <div class="card">
-    <div class="card-header">
-        <div class="d-flex">Training scheduling</div>
-        <div class="d-flex">
-            <button class="btn btn-sm btn-secondary" id="assign-organization-btn" data-bs-toggle="modal" data-bs-target="#addSheduling">
+    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <div>Training scheduling</div>
+        <div>
+            <button class="btn btn-sm btn-light" id="assign-organization-btn" data-bs-toggle="modal" data-bs-target="#addSheduling">
                 Add scheduling
           </button>
         </div>
     </div>
     <div class="card-body">
         <!-- tab div -->
-        <div>
-            <ul class="nav soft-tabs" role="tablist">
+        <div  id="scheduling-tabs">
+            <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                     <a href="#upcoming" class="nav-link active" data-bs-toggle="tab" role="tab">
                         Upcoming
