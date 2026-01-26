@@ -5,22 +5,28 @@
     <div class="card-header bg-secondary text-white">
         Schedule Details
     </div>
-
+    <div class="card-body">
+        <p><strong>Venue:</strong> {{ schedule.venue }}</p>
+        <p><strong>Date:</strong> {{ schedule.date }}</p>
+        <p><strong>Time:</strong> {{ schedule.start_time }} - {{ schedule.end_time }}</p>
+        <p><strong>Description:</strong> {{ schedule.description }}</p>
+    </div>
 </div>
 
 <div class="card mb-5">
     <div class="card-header bg-secondary text-white">
-        Attedance List
+        Attendance List
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped datatable"> 
+            <table class="table table-bordered table-striped datatable">
                 <thead>
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Position</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,18 +37,75 @@
                             <td>{{ entry.player.last_name }}</td>
                             <td>{{ entry.player.position }}</td>
                             <td>
-            
-                                <a href="">Comfirm attendance</a>
+                                {% if entry.attended %}
+                                    <span class="badge bg-success">Present</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not entry.attended %}
+                                    <a href="#" class="btn btn-sm btn-primary"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#confirmAttendanceModal"
+                                       data-attendance-id="{{ entry.pk }}"
+                                       data-player-name="{{ entry.player.get_full_name }}">
+                                        Confirm Attendance
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">Confirmed</span>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        
+
     </div>
 
 </div>
 
+<!-- Confirm Attendance Modal -->
+<div class="modal fade" id="confirmAttendanceModal" tabindex="-1" aria-labelledby="confirmAttendanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmAttendanceModalLabel">Confirm Attendance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="confirmAttendanceForm" method="post" action="">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Are you sure you want to confirm attendance for <strong id="playerName"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var confirmModal = document.getElementById('confirmAttendanceModal');
+    if (confirmModal) {
+        confirmModal.addEventListener('show.bs.modal', function(event) {
+            var button = event.relatedTarget;
+            var attendanceId = button.getAttribute('data-attendance-id');
+            var playerName = button.getAttribute('data-player-name');
+
+            var form = document.getElementById('confirmAttendanceForm');
+            form.action = "{% url 'account:confirm-attendance' pk=0 %}".replace('0', attendanceId);
+
+            document.getElementById('playerName').textContent = playerName;
+        });
+    }
+});
+</script>
 {% endblock %}

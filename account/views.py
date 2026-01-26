@@ -156,12 +156,20 @@ class DetailPlaySchedule(LoginRequiredMixin, View):
 class AssignPlayerSchedule(LoginRequiredMixin, CreateView):
     model = PlayerAttendance
     form_class = PlayerAttendanceForm
-    
+
     def get_success_url(self):
         return reverse(
            'account:player-details',
            kwargs={'pk': self.object.player.pk}
         )
+
+
+class ConfirmAttendanceView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        attendance = get_object_or_404(PlayerAttendance, pk=pk)
+        attendance.attended = True
+        attendance.save()
+        return redirect('account:scheduling-details', pk=attendance.schedule.pk)
 
 # Users
 class UserListView(LoginRequiredMixin, View):
