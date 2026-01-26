@@ -155,3 +155,71 @@
     color: #333;
     padding: 0.5rem 0.75rem;
 }
+
+/* Simple-DataTables Styling */
+.datatable-wrapper {
+    padding-top: 0.5rem;
+}
+
+.datatable-top,
+.datatable-bottom {
+    padding: 0.75rem 0;
+}
+
+.datatable-search input {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+}
+
+.datatable-dropdown select {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+}
+
+.datatable-info {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.datatable-pagination-list {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.datatable-pagination-list-item-link {
+    padding: 0.375rem 0.75rem;
+    margin-left: 0.25rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #0d6efd;
+    border: 1px solid #dee2e6;
+}
+
+.datatable-pagination-list-item-link:hover {
+    background-color: #e9ecef;
+}
+
+.datatable-pagination-list-item.datatable-active .datatable-pagination-list-item-link {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.datatable-table thead th {
+    cursor: pointer;
+    position: relative;
+    padding-right: 20px !important;
+}
+
+.datatable-table thead th[data-sortable="false"] {
+    cursor: default;
+}
+
+.datatable-sorter::before,
+.datatable-sorter::after {
+    border-color: #6c757d transparent;
+}
