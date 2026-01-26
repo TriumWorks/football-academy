@@ -2,6 +2,156 @@
     margin-top: 20px;
 }
 
-#scheduling-tabs{    
+#scheduling-tabs{
     margin-bottom: 10px !important
+}
+
+/* Sidebar Styles */
+.sidebar {
+    transition: all 0.3s ease;
+}
+
+#sidebar-wrapper {
+    transition: all 0.3s ease;
+    width: auto;
+}
+
+/* Sidebar icon styling */
+.sidebar-icon {
+    font-size: 1.2rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+.sidebar-text {
+    margin-left: 0.5rem;
+    white-space: nowrap;
+    transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+/* Collapsed state */
+.sidebar.collapsed .sidebar-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    margin-left: 0;
+    display: none;
+}
+
+.sidebar.collapsed .card-header {
+    justify-content: center !important;
+    padding: 0.75rem 0.5rem;
+}
+
+.sidebar.collapsed .sidebar-title {
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar.collapsed .nav-link,
+.sidebar.collapsed .btn {
+    justify-content: center !important;
+    padding: 0.5rem;
+}
+
+.sidebar.collapsed .list-group-item {
+    text-align: center;
+}
+
+.sidebar.collapsed .sidebar-icon {
+    margin-right: 0 !important;
+}
+
+/* Tablet view - show toggle button */
+@media (min-width: 768px) and (max-width: 1199.98px) {
+    #sidebar-wrapper {
+        max-width: 220px;
+    }
+
+    .sidebar.collapsed + #content-wrapper,
+    .sidebar.collapsed {
+        max-width: fit-content;
+    }
+
+    .sidebar .card {
+        min-width: 60px;
+    }
+}
+
+/* Desktop view - full width sidebar */
+@media (min-width: 1200px) {
+    #sidebar-wrapper {
+        max-width: 250px;
+        min-width: 200px;
+    }
+}
+
+/* Mobile view */
+@media (max-width: 767.98px) {
+    #sidebar-wrapper {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 1rem;
+    }
+
+    #content-wrapper {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+}
+
+/* Hover effect on collapsed sidebar items */
+.sidebar.collapsed .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.sidebar.collapsed .nav-link:hover .sidebar-icon,
+.sidebar.collapsed .btn:hover .sidebar-icon {
+    transform: scale(1.1);
+}
+
+/* Tooltip for collapsed state - show text on hover */
+.sidebar.collapsed .list-group-item {
+    position: relative;
+}
+
+.sidebar.collapsed .list-group-item:hover::after {
+    content: attr(data-title);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-left: 0.5rem;
+}
+
+/* Smooth transitions */
+.sidebar .card-header,
+.sidebar .nav-link,
+.sidebar .btn,
+.sidebar .list-group-item {
+    transition: all 0.3s ease;
+}
+
+/* Active nav link styling */
+.sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    border-radius: 4px;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    padding: 0.5rem 0.75rem;
 }
