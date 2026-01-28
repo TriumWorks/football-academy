@@ -29,6 +29,9 @@ body {
     background-color: var(--background-color);
     color: var(--text-primary);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Typography */
@@ -41,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 #body-container {
     margin-top: 0;
     padding: 1.5rem;
-    min-height: 100vh;
+    flex: 1;
 }
 
 #scheduling-tabs {
@@ -817,4 +820,31 @@ html {
 
 .loading {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ===========================
+   FOOTER STYLES
+   =========================== */
+.site-footer {
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+.site-footer p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.site-footer a {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
 }
