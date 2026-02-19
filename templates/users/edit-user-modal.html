@@ -1,0 +1,35 @@
+<div class="modal fade" id="editCaretaker" tabindex="-1" aria-labelledby="editCaretakerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCaretakerLabel">Edit Caretaker</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="editCaretakerForm" action="">
+                    {% csrf_token %}
+                    {{ update_form.as_p }}
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('editCaretaker').addEventListener('show.bs.modal', function (event) {
+        const btn = event.relatedTarget;
+        const form = document.getElementById('editCaretakerForm');
+        form.action = btn.getAttribute('data-update-url');
+        form.querySelector('[name="first_name"]').value = btn.getAttribute('data-first-name') || '';
+        form.querySelector('[name="middle_name"]').value = btn.getAttribute('data-middle-name') || '';
+        form.querySelector('[name="last_name"]').value = btn.getAttribute('data-last-name') || '';
+        form.querySelector('[name="email"]').value = btn.getAttribute('data-email') || '';
+        form.querySelector('[name="telephone"]').value = btn.getAttribute('data-telephone') || '';
+        form.querySelector('[name="address_line_1"]').value = btn.getAttribute('data-address') || '';
+        form.querySelector('[name="is_active"]').checked = btn.getAttribute('data-is-active') === 'True';
+        form.querySelector('[name="is_verified"]').checked = btn.getAttribute('data-is-verified') === 'True';
+    });
+</script>

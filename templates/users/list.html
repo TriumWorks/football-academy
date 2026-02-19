@@ -27,7 +27,18 @@
                             <td>{{ parent.is_verified }}</td>
                             <td>
                                 <a href="{% url 'account:care-takers-details' parent.pk %}">View</a>
-                                <a href="">Edit</a>
+                                <a href="#"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#editCaretaker"
+                                   data-update-url="{% url 'account:care-takers-update' parent.pk %}"
+                                   data-first-name="{{ parent.first_name }}"
+                                   data-middle-name="{{ parent.middle_name }}"
+                                   data-last-name="{{ parent.last_name }}"
+                                   data-email="{{ parent.email }}"
+                                   data-telephone="{{ parent.telephone }}"
+                                   data-address="{{ parent.address_line_1 }}"
+                                   data-is-active="{{ parent.is_active }}"
+                                   data-is-verified="{{ parent.is_verified }}">Edit</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -37,5 +48,7 @@
         
     </div>
 </div>
+
+{% include 'users/edit-user-modal.html' %}
 
 {% endblock %}

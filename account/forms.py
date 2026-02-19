@@ -1,6 +1,7 @@
 from django import forms
 from django.utils import timezone
 
+from django.contrib.auth import get_user_model
 from account.models import (
     Player,
     PlayerAttendance,
@@ -137,6 +138,22 @@ class PlayerForm(forms.ModelForm):
             'notes': forms.Textarea(
                 attrs={ 'class': 'form-control'}
             )
+        }
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name', 'middle_name', 'last_name', 'email', 'telephone', 'address_line_1', 'is_active', 'is_verified']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'middle_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'telephone': forms.TextInput(attrs={'class': 'form-control'}),
+            'address_line_1': forms.TextInput(attrs={'class': 'form-control'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_verified': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 

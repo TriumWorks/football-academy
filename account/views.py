@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, PlayScheduleForm, PlayerAttendanceForm, PlayerForm, RegisterForm, UserPlayerForm
+from .forms import LoginForm, PlayScheduleForm, PlayerAttendanceForm, PlayerForm, RegisterForm, UserPlayerForm, UserUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from datetime import timedelta
@@ -175,9 +175,10 @@ class ConfirmAttendanceView(LoginRequiredMixin, View):
 class UserListView(LoginRequiredMixin, View):
     def get(self, request):
         parents = User.objects.all()
-       
+        update_form = UserUpdateForm()
         context = {
-            'parents': parents
+            'parents': parents,
+            'update_form': update_form,
         }
         return render(request, 'users/list.html', context)
     
@@ -191,6 +192,15 @@ class DetailUserView(LoginRequiredMixin, View):
             'assign_player': assign_player
         }
         return render(request, 'users/details.html', context)
+
+
+class UpdateUserView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+        return redirect('account:care-takers')
 
 
 class AssignUserPlayer(LoginRequiredMixin, CreateView):
