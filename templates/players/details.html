@@ -5,7 +5,37 @@
     <div class="card-header bg-secondary text-white">
         {{player.get_full_name}}'s Details
     </div>
+    <div class="card-body">
+        <div class="row">
+            {% if player.profile_picture %}
+            <div class="col-auto">
+                <img src="{{ player.profile_picture.url }}" alt="{{ player.get_full_name }}" class="rounded" style="max-height: 150px; object-fit: cover; cursor: pointer;"
+                     data-bs-toggle="modal" data-bs-target="#profilePictureModal">
+            </div>
+            {% endif %}
+            <div class="col">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">First Name</dt>
+                    <dd class="col-sm-9">{{ player.first_name }}</dd>
 
+                    <dt class="col-sm-3">Last Name</dt>
+                    <dd class="col-sm-9">{{ player.last_name }}</dd>
+
+                    <dt class="col-sm-3">Date of Birth</dt>
+                    <dd class="col-sm-9">{{ player.dob|default:"—" }}</dd>
+
+                    <dt class="col-sm-3">Position</dt>
+                    <dd class="col-sm-9">{{ player.position }}</dd>
+
+                    <dt class="col-sm-3">Price per Session</dt>
+                    <dd class="col-sm-9">{{ player.price }}</dd>
+
+                    <dt class="col-sm-3">Notes</dt>
+                    <dd class="col-sm-9">{{ player.notes }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="card mb-5">
@@ -132,5 +162,18 @@
 </div>
 
 {% include 'players/add-to-schedule-modal.html' %}
+
+{% if player.profile_picture %}
+<div class="modal fade" id="profilePictureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body text-center p-0">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                <img src="{{ player.profile_picture.url }}" alt="{{ player.get_full_name }}" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}

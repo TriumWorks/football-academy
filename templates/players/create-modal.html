@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{% url 'account:players-create'%}">
+                <form method="post" action="{% url 'account:players-create'%}" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <div class="d-grid gap-2 mt-4">

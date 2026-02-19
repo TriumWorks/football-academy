@@ -8,9 +8,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm, PaymentForm, PlayScheduleForm, PlayerAttendanceForm, PlayerForm, RegisterForm, UserPlayerForm, UserUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
 from django.utils import timezone
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 class RegisterView(View):
@@ -74,10 +73,12 @@ class ListPlayerView(LoginRequiredMixin, View):
                 deleted=False
             )
         form = PlayerForm()
+        edit_form = PlayerForm()
 
         context = {
             'players': players,
-            'form': form
+            'form': form,
+            'edit_form': edit_form,
         }
         return render(request, 'players/list.html', context)
 
@@ -86,13 +87,6 @@ class CreatePlayerView(LoginRequiredMixin, CreateView):
     model = Player
     form_class = PlayerForm
 
-    def form_valid(self, form):
-        player = form.save(commit=True)
-        return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        pass
-    
     def get_success_url(self):
         return reverse('account:players')
 
@@ -136,15 +130,8 @@ class CreatePlaySchedule(LoginRequiredMixin, CreateView):
     model = PlaySchedule
     form_class = PlayScheduleForm
     
-    def form_valid(self, form):
-        schedule = form.save(commit=True)
-        return super().form_valid(form)
-    
-    def form_invalid(self, form):
-        pass
-    
     def get_success_url(self):
-         return reverse('account:scheduling')
+        return reverse('account:scheduling')
 
 
 class DetailPlaySchedule(LoginRequiredMixin, View):
@@ -245,6 +232,19 @@ class UpdateUserView(LoginRequiredMixin, View):
         return redirect('account:care-takers')
 
 
+class UpdatePlayerView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        player = get_object_or_404(Player, pk=pk)
+        existing_picture = player.profile_picture
+        form = PlayerForm(request.POST, request.FILES, instance=player)
+        if form.is_valid():
+            updated = form.save(commit=False)
+            if not request.FILES.get('profile_picture'):
+                updated.profile_picture = existing_picture
+            updated.save()
+        return redirect('account:player-details', pk=pk)
+
+
 class AddPaymentView(LoginRequiredMixin, CreateView):
     model = Payment
     form_class = PaymentForm
@@ -261,7 +261,6 @@ class AssignUserPlayer(LoginRequiredMixin, CreateView):
     form_class = UserPlayerForm
     
     def form_valid(self, form):
-        assignment = form.save(commit=True)
         return super().form_valid(form)
         
         

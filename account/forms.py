@@ -121,7 +121,7 @@ class PlayerForm(forms.ModelForm):
     class Meta:
         model = Player
         fields = [
-            'first_name', 'last_name', 'dob', 'position', 'price', 'notes'
+            'first_name', 'last_name', 'dob', 'position', 'price', 'profile_picture', 'notes'
         ]
         widgets = {
             'first_name': forms.TextInput(
@@ -137,6 +137,9 @@ class PlayerForm(forms.ModelForm):
                 attrs={ 'class': 'form-control'}
             ),
             'price': forms.NumberInput(
+                attrs={ 'class': 'form-control'}
+            ),
+            'profile_picture': forms.FileInput(
                 attrs={ 'class': 'form-control'}
             ),
             'notes': forms.Textarea(

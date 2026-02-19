@@ -1,0 +1,33 @@
+<div class="modal fade" id="editPlayer" tabindex="-1" aria-labelledby="editPlayerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPlayerLabel">Edit Player</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="editPlayerForm" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ edit_form.as_p }}
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('editPlayer').addEventListener('show.bs.modal', function (event) {
+        const btn = event.relatedTarget;
+        const form = document.getElementById('editPlayerForm');
+        form.action = btn.getAttribute('data-update-url');
+        form.querySelector('[name="first_name"]').value = btn.getAttribute('data-first-name') || '';
+        form.querySelector('[name="last_name"]').value = btn.getAttribute('data-last-name') || '';
+        form.querySelector('[name="dob"]').value = btn.getAttribute('data-dob') || '';
+        form.querySelector('[name="position"]').value = btn.getAttribute('data-position') || '';
+        form.querySelector('[name="price"]').value = btn.getAttribute('data-price') || '';
+        form.querySelector('[name="notes"]').value = btn.getAttribute('data-notes') || '';
+    });
+</script>

@@ -32,7 +32,16 @@
                             <td>{{ player.position }}</td>
                             <td>
                                 <a href="{% url 'account:player-details' player.pk %}">View</a>
-                                <a href="">Edit</a>
+                                <a href="#"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#editPlayer"
+                                   data-update-url="{% url 'account:player-update' player.pk %}"
+                                   data-first-name="{{ player.first_name }}"
+                                   data-last-name="{{ player.last_name }}"
+                                   data-dob="{{ player.dob|default:'' }}"
+                                   data-position="{{ player.position }}"
+                                   data-price="{{ player.price }}"
+                                   data-notes="{{ player.notes }}">Edit</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -44,5 +53,6 @@
 </div>
 
 {% include 'players/create-modal.html' %}
+{% include 'players/edit-player-modal.html' %}
 
 {% endblock %}

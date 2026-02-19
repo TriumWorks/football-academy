@@ -65,7 +65,7 @@ class Player(AuditableModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     dob = models.DateField(null=True, blank=True)
-    profile_picture = models.FileField(null=True, blank=True)
+    profile_picture = models.FileField(upload_to=lambda instance, filename: f'profile-pictures/{instance.pk}/{filename}', null=True, blank=True)
     position = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     notes = models.TextField()
