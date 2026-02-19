@@ -55,7 +55,14 @@ class LoginView(View):
 
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'home.html')
+        today = timezone.now().date()
+        context = {
+            'total_players': Player.objects.filter(deleted=False).count(),
+            'total_caretakers': User.objects.filter(deleted=False, is_superuser=False).count(),
+            'upcoming_sessions': PlaySchedule.objects.filter(date__gte=today, deleted=False).count(),
+            'recent_schedules': PlaySchedule.objects.filter(deleted=False).order_by('-date')[:5],
+        }
+        return render(request, 'home.html', context)
 
 class LogoutView(View):
     def post(self, request):
