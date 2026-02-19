@@ -16,7 +16,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped datatable"> 
+            <table class="table table-bordered table-striped datatable">
                 <thead>
                     <tr>
                         <th>First Name</th>
@@ -28,7 +28,6 @@
                 </thead>
                 <tbody>
                     {% for entry in user.userplayer_set.all %}
-                    {{player}}
                         <tr>
                             <td>{{ entry.player.first_name }}</td>
                             <td>{{ entry.player.last_name }}</td>
@@ -43,19 +42,51 @@
                 </tbody>
             </table>
         </div>
-        
+
     </div>
 
 </div>
 
 <div class="card mb-5">
-    <div class="card-header bg-secondary text-white">
-        {{user.get_full_name}}'s Payments
+    <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+        <span>{{user.get_full_name}}'s Payments &mdash; Balance: {{ balance }}</span>
+        <a href="#" class="btn btn-primary btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addPayment">Add Payment</a>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Credit</th>
+                        <th>Debit</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in ledger %}
+                        <tr>
+                            <td>{{ row.date }}</td>
+                            <td>{{ row.description }}</td>
+                            <td>{% if row.credit %}{{ row.credit }}{% else %}&mdash;{% endif %}</td>
+                            <td>{% if row.debit %}{{ row.debit }}{% else %}&mdash;{% endif %}</td>
+                            <td>{{ row.balance }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No transactions yet.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>
 
 {% include 'users/add-player-modal.html' %}
-
+{% include 'users/add-payment-modal.html' %}
 
 {% endblock %}

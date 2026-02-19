@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 from account.models import (
+    Payment,
     Player,
     PlayerAttendance,
     UserPlayer,
@@ -120,7 +121,7 @@ class PlayerForm(forms.ModelForm):
     class Meta:
         model = Player
         fields = [
-            'first_name', 'last_name', 'dob', 'position', 'notes'
+            'first_name', 'last_name', 'dob', 'position', 'price', 'notes'
         ]
         widgets = {
             'first_name': forms.TextInput(
@@ -133,6 +134,9 @@ class PlayerForm(forms.ModelForm):
                 attrs={ 'class': 'form-control', 'type': 'date'}
             ),
             'position': forms.TextInput(
+                attrs={ 'class': 'form-control'}
+            ),
+            'price': forms.NumberInput(
                 attrs={ 'class': 'form-control'}
             ),
             'notes': forms.Textarea(
@@ -154,6 +158,17 @@ class UserUpdateForm(forms.ModelForm):
             'address_line_1': forms.TextInput(attrs={'class': 'form-control'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'is_verified': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+
+class PaymentForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        fields = ['user', 'amount', 'notes']
+        widgets = {
+            'user': forms.HiddenInput(),
+            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
         }
 
 

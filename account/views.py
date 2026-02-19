@@ -1,15 +1,16 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .models import PlaySchedule, Player, PlayerAttendance, User, UserPlayer
+from .models import Payment, PlaySchedule, Player, PlayerAttendance, User, UserPlayer
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, PlayScheduleForm, PlayerAttendanceForm, PlayerForm, RegisterForm, UserPlayerForm, UserUpdateForm
+from .forms import LoginForm, PaymentForm, PlayScheduleForm, PlayerAttendanceForm, PlayerForm, RegisterForm, UserPlayerForm, UserUpdateForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.utils import timezone
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 
 class RegisterView(View):
@@ -65,9 +66,15 @@ class LogoutView(View):
 # Players
 class ListPlayerView(LoginRequiredMixin, View):
     def get(self, request):
-        players = Player.objects.all()
+        if request.user.is_superuser:
+            players = Player.objects.all()
+        else:
+            players = Player.objects.filter(
+                userplayer__user=request.user,
+                deleted=False
+            )
         form = PlayerForm()
-        
+
         context = {
             'players': players,
             'form': form
@@ -187,9 +194,44 @@ class DetailUserView(LoginRequiredMixin, View):
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
         assign_player = UserPlayerForm(initial={'user': user})
+        payment_form = PaymentForm(initial={'user': user})
+
+        # Build reducing balance ledger
+        payments = Payment.objects.filter(user=user, deleted=False).order_by('created_at')
+        deductions = PlayerAttendance.objects.filter(
+            player__userplayer__user=user,
+            attended=True,
+            deleted=False
+        ).select_related('player', 'schedule').order_by('schedule__date')
+
+        ledger = []
+        for p in payments:
+            ledger.append({
+                'date': p.created_at.date() if p.created_at else None,
+                'description': f'Payment – {p.notes}' if p.notes else 'Payment',
+                'credit': p.amount,
+                'debit': None,
+            })
+        for a in deductions:
+            ledger.append({
+                'date': a.schedule.date,
+                'description': f'{a.player.get_full_name()} – {a.schedule.venue} training',
+                'credit': None,
+                'debit': a.fee,
+            })
+
+        ledger.sort(key=lambda x: x['date'] or datetime.min.date())
+        running = 0
+        for row in ledger:
+            running += (row['credit'] or 0) - (row['debit'] or 0)
+            row['balance'] = running
+
         context = {
             'user': user,
-            'assign_player': assign_player
+            'assign_player': assign_player,
+            'payment_form': payment_form,
+            'ledger': ledger,
+            'balance': running,
         }
         return render(request, 'users/details.html', context)
 
@@ -201,6 +243,17 @@ class UpdateUserView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
         return redirect('account:care-takers')
+
+
+class AddPaymentView(LoginRequiredMixin, CreateView):
+    model = Payment
+    form_class = PaymentForm
+
+    def get_success_url(self):
+        return reverse(
+            'account:care-takers-details',
+            kwargs={'pk': self.object.user.pk}
+        )
 
 
 class AssignUserPlayer(LoginRequiredMixin, CreateView):

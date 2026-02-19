@@ -56,7 +56,7 @@ class User(AbstractBaseUser, AuditableModel, PermissionsMixin):
 
     def __str__(self):
         return f'{self.email} {self.last_name or ""}'.strip()
-    
+
     def get_full_name(self):
         return f"{self.first_name} {self.middle_name} {self.last_name}".strip()
 
@@ -67,14 +67,15 @@ class Player(AuditableModel):
     dob = models.DateField(null=True, blank=True)
     profile_picture = models.FileField(null=True, blank=True)
     position = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     notes = models.TextField()
-    
+
     def get_full_name(self):
         return f"{self.first_name}  {self.last_name}".strip()
-    
+
     def __str__(self):
         return  f"{self.first_name} {self.last_name}".strip()
-    
+
 
 class UserPlayer(AuditableModel):
     user = models.ForeignKey(
@@ -86,14 +87,14 @@ class UserPlayer(AuditableModel):
         on_delete=models.CASCADE
     )
 
-  
+
 class PlaySchedule(AuditableModel):
     venue = models.CharField(max_length=255)
     date = models.DateField(auto_now=False, null=True)
     start_time = models.TimeField()
     end_time = models.TimeField()
     description = models.TextField()
-    
+
     def __str__(self):
         return f"{self.venue} {self.date} starting {self.start_time}"
 
@@ -110,8 +111,23 @@ class PlayerAttendance(AuditableModel):
     attended = models.BooleanField(
         default=False
     )
+    fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     notes = models.TextField()
-    
+
+    def save(self, *args, **kwargs):
+        if not self.pk and not self.fee:
+            self.fee = self.player.price
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.player.get_full_name()} {self.schedule.date} {self.schedule.start_time}"
-    
+
+
+class Payment(AuditableModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='payments'
+    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    notes = models.TextField(blank=True)

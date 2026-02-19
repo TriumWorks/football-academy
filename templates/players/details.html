@@ -76,6 +76,7 @@
                                 <th>Start Time</th>
                                 <th>End time</th>
                                 <th>Description</th>
+                                <th>Fee</th>
                                 <th>Attended?</th>
                             </tr>
                         </thead>
@@ -87,7 +88,8 @@
                                 <td>{{ item.schedule.start_time }}</td>
                                 <td>{{ item.schedule.end_time }}</td>
                                 <td>{{ item.schedule.description }}</td>
-                                <td>{{ item.attended }}
+                                <td>{{ item.fee }}</td>
+                                <td>{{ item.attended }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -104,6 +106,7 @@
                                 <th>Start Time</th>
                                 <th>End time</th>
                                 <th>Description</th>
+                                <th>Fee</th>
                                 <th>Attended?</th>
                             </tr>
                         </thead>
@@ -115,7 +118,8 @@
                                 <td>{{ item.schedule.start_time }}</td>
                                 <td>{{ item.schedule.end_time }}</td>
                                 <td>{{ item.schedule.description }}</td>
-                                <td>{{ item.attended }}
+                                <td>{{ item.fee }}</td>
+                                <td>{{ item.attended }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

@@ -1,6 +1,6 @@
 # add url patterns
 from django.urls import path
-from .views import AssignPlayerSchedule, AssignUserPlayer, ConfirmAttendanceView, CreatePlaySchedule, CreatePlayerView, DetailPlaySchedule, DetailPlayerView, DetailUserView, HomeView, ListPlaySchedule, ListPlayerView, LogoutView, RegisterView, LoginView, UpdateUserView, UserListView
+from .views import AddPaymentView, AssignPlayerSchedule, AssignUserPlayer, ConfirmAttendanceView, CreatePlaySchedule, CreatePlayerView, DetailPlaySchedule, DetailPlayerView, DetailUserView, HomeView, ListPlaySchedule, ListPlayerView, LogoutView, RegisterView, LoginView, UpdateUserView, UserListView
 
 app_name = 'account'
 urlpatterns = [
@@ -21,6 +21,9 @@ urlpatterns = [
     path('play-schedule/<pk>', DetailPlaySchedule.as_view(), name='scheduling-details'),
     path('attendance/<pk>/confirm', ConfirmAttendanceView.as_view(), name='confirm-attendance'),
     
+    # payments
+    path('payments/create', AddPaymentView.as_view(), name='payments-create'),
+
     # parents
     path('care-takers', UserListView.as_view(), name='care-takers'),
     path('care-takers/<pk>/update', UpdateUserView.as_view(), name='care-takers-update'),
